@@ -29757,7 +29757,17 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var ReactComponent = function ReactComponent() {
-	  return _react2.default.createElement(_RaisedButton2.default, { label: 'Primary' });
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'h1',
+	      null,
+	      ' Contacts '
+	    ),
+	    _react2.default.createElement(_RaisedButton2.default, { label: 'Primary' }),
+	    _react2.default.createElement(_RaisedButton2.default, { label: 'Disabled' })
+	  );
 	};
 	exports.default = ReactComponent;
 
