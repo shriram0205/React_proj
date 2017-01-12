@@ -1,12 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import ReactComponent from './ReactComponent';
 
 class Main extends React.Component {
   render() {
     return (
-      <div>
-        <h1>This is one cool app!</h1>
-      </div>
+      
+        <MuiThemeProvider>
+    <ReactComponent />
+  </MuiThemeProvider>
+     
     );
   }
 }
