@@ -1,53 +1,36 @@
-module.exports = {
-    entry: getEntrySources(['./src/js/entry.js']),
-    output: {
-        publicPath: 'http://localhost:8080/',
-        filename: 'build/bundle.js'
-    },
-    devtool: 'eval',
-    module: {
-        preLoaders: [
-            {
-                test: /\.jsx?$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: 'source-map'
-            }
-        ],
-        loaders: [
-            {
-                test: /\.scss$/,
-                include: /src/,
-                loaders: [
-                    'style',
-                    'css',
-                    'autoprefixer?browsers=last 3 versions',
-                    'sass?outputStyle=expanded'
-                ]
-            },
-            {
-                test: /\.(jpe?g|png|gif|svg)$/i,
-                loaders: [
-                    'url?limit=8192',
-                    'img'
-                ]
-            },
-            {
-                test: /\.jsx?$/,
-                exclude: /(node_modules|bower_components)/,
-                loaders: [
-                    'react-hot',
-                    'babel?presets[]=stage-0,presets[]=react,presets[]=es2015'
-                ]
-            }
-        ]
-    }
+import webpack from 'webpack';  
+import path from 'path';
+
+export default {  
+  debug: true,
+  devtool: 'cheap-module-eval-source-map',
+  noInfo: false,
+  entry: [
+    'eventsource-polyfill',
+    'webpack-hot-middleware/client?reload=true',
+    './src/index'
+  ],
+  target: 'web',
+  output: {
+    path: __dirname + '/dist',
+    publicPath: '/',
+    filename: 'bundle.js'
+  },
+  devServer: {
+    contentBase: './src'
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ],
+  module: {
+    loaders: [
+      {test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel']},
+      {test: /(\.css)$/, loaders: ['style', 'css']},
+      {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file'},
+      {test: /\.(woff|woff2)$/, loader: 'url?prefix=font/&limit=5000'},
+      {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream'},
+      {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml'}
+    ]
+  }
 };
-
-function getEntrySources(sources) {
-    if (process.env.NODE_ENV !== 'production') {
-        sources.push('webpack-dev-server/client?http://localhost:8080');
-        sources.push('webpack/hot/only-dev-server');
-    }
-
-    return sources;
-}
